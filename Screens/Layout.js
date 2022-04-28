@@ -1,19 +1,38 @@
 import React, { useState } from "react";
-import { StyleSheet, View, TextInput, Button } from "react-native";
+import { StyleSheet, View, TextInput, FlatList, Text } from "react-native";
 import { colors } from "../Styles/colors";
 import Item from "../Components/Item";
 import ButtonCustom from "../Components/Button";
+import CustomModal from "../Components/Modal";
 
 const Layout = () => {
   const [input, setInput] = useState("");
   const [items, setItems] = useState([]);
+  const [itemSelected, setItemselected] = useState({});
+  const [modalVisible, setModalVisible] = useState(false);
 
   const addTodo = () => {
-    setItems((prevItems) => [
-      ...prevItems,
-      { id: prevItems.length + 1, text: input },
-    ]);
-    setInput("");
+    if (input !== "") {
+      setItems((prevItems) => [...prevItems, { id: Date.now(), text: input }]);
+      setInput("");
+    }
+  };
+
+  const handleDelete = (id) => {
+    setItems((prevItems) => prevItems.filter((item) => item.id !== id));
+    setItemselected({});
+    setModalVisible(!modalVisible);
+  };
+
+  const handleShowModal = (id) => {
+    setItemselected(items.find((item) => item.id === id));
+    setModalVisible(!modalVisible);
+  };
+
+  const handleEnterPress = (e) => {
+    if (e.nativeEvent.key == "Enter") {
+      addTodo();
+    }
   };
 
   return (
@@ -24,16 +43,29 @@ const Layout = () => {
           placeholder="Add todo"
           onChangeText={setInput}
           value={input}
+          onKeyPress={handleEnterPress}
         />
         <ButtonCustom text="Add todo" onPress={addTodo} />
       </View>
-      {items.length !== 0 &&
-        <View style={styles.itemList}>
-          {items.map((item) => {
-            return <Item key={item.id} item={item} />;
-          })}
-        </View>
-      }
+      <View style={styles.itemList}>
+        {items.length !== 0 ? (
+          <FlatList
+            data={items}
+            renderItem={({ item }) => (
+              <Item item={item} onPress={handleShowModal.bind(this, item.id)} />
+            )}
+            keyExtractor={(item) => item.id}
+          />
+        ) : (
+          <Text style={styles.text}>No hay tareas</Text>
+        )}
+      </View>
+      <CustomModal
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        itemSelected={itemSelected}
+        handleDelete={handleDelete}
+      />
     </View>
   );
 };
@@ -66,5 +98,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.brown,
     width: "95%",
     padding: 20,
+  },
+  text: {
+    textAlign: "center",
   },
 });
