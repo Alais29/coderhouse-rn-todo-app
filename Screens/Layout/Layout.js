@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { StyleSheet, View, TextInput, FlatList, Text } from "react-native";
-import { colors } from "../Styles/colors";
-import Item from "../Components/Item";
-import ButtonCustom from "../Components/Button";
-import CustomModal from "../Components/Modal";
+import { View, TextInput, FlatList, Text } from "react-native";
+import Item from "../../Components/Item/Item";
+import CustomButton from "../../Components/CustomButton/CustomButton";
+import CustomModal from "../../Components/CustomModal/Modal";
+
+import { styles } from "./styles";
 
 const Layout = () => {
   const [input, setInput] = useState("");
@@ -29,6 +30,12 @@ const Layout = () => {
     setModalVisible(!modalVisible);
   };
 
+  const handleEdit = (id, newText) => {
+    console.log("HERE");
+    const itemToEdit = items.find((item) => item.id === id);
+    itemToEdit.text = newText;
+  };
+
   const handleEnterPress = (e) => {
     if (e.nativeEvent.key == "Enter") {
       addTodo();
@@ -45,14 +52,18 @@ const Layout = () => {
           value={input}
           onKeyPress={handleEnterPress}
         />
-        <ButtonCustom text="Add todo" onPress={addTodo} />
+        <CustomButton text="Add todo" onPress={addTodo} />
       </View>
       <View style={styles.itemList}>
         {items.length !== 0 ? (
           <FlatList
             data={items}
             renderItem={({ item }) => (
-              <Item item={item} onPress={handleShowModal.bind(this, item.id)} />
+              <Item
+                item={item}
+                onDelete={handleShowModal}
+                onEdit={handleEdit}
+              />
             )}
             keyExtractor={(item) => item.id}
           />
@@ -71,35 +82,3 @@ const Layout = () => {
 };
 
 export default Layout;
-
-const styles = StyleSheet.create({
-  container: {
-    padding: 25,
-    justifyContent: "space-around",
-    alignItems: "center",
-  },
-  topContainer: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
-    padding: 10,
-  },
-  input: {
-    borderRadius: 8,
-    borderWidth: 2,
-    width: 200,
-    marginRight: 10,
-    paddingHorizontal: 8,
-    fontSize: 18,
-    height: 35,
-    backgroundColor: colors.gray,
-  },
-  itemList: {
-    backgroundColor: colors.brown,
-    width: "95%",
-    padding: 20,
-  },
-  text: {
-    textAlign: "center",
-  },
-});

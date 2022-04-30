@@ -5,4 +5,5 @@ export const colors = {
   brown: "#DEA057",
   darkBrown: "#CE9461",
   danger: "#BB0B0B",
+  warning: "#B09D10",
 };
