@@ -7,12 +7,15 @@ export const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     marginBottom: 10,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexGrow: 1,
   },
   text: {
     color: colors.white,
     fontSize: 18,
+  },
+  done: {
+    textDecorationLine: "line-through",
+    textDecorationStyle: "solid",
+    color: colors.darkGray,
   },
 });

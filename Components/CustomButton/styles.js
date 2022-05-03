@@ -19,4 +19,7 @@ export const styles = StyleSheet.create({
   warning: {
     backgroundColor: colors.warning,
   },
+  success: {
+    backgroundColor: colors.success,
+  },
 });

@@ -1,35 +1,19 @@
-import { Text, TextInput, View } from "react-native";
-import React, { useEffect, useState } from "react";
-import CustomButton from "../CustomButton/CustomButton";
+import { Text, TouchableOpacity, View } from "react-native";
+import React from "react";
 import { styles } from "./styles";
 
-export default function Item({ item, onDelete, onEdit }) {
-  const [text, setText] = useState(item.text);
-  const [textEdited, setTextEdited] = useState(false);
+export default function Item({ item, openModal }) {
+  const textStyles = [styles.text];
 
-  const handleButton = () => {
-    if (textEdited) {
-      onEdit(item.id, text);
-      setTextEdited(false);
-    } else {
-      onDelete(item.id);
-    }
-  };
-
-  useEffect(() => {
-    if (item.text !== text) setTextEdited(true);
-    else setTextEdited(false);
-  }, [text]);
+  if (item.done) {
+    textStyles.push(styles.done);
+  }
 
   return (
     <View style={styles.itemContainer}>
-      {/* <Text style={styles.text}>{item.text}</Text> */}
-      <TextInput style={styles.text} value={text} onChangeText={setText} />
-      <CustomButton
-        text={textEdited ? "Edit" : "Delete"}
-        onPress={() => handleButton()}
-        type={textEdited ? "warning" : "danger"}
-      />
+      <TouchableOpacity onPress={() => openModal(item.id)}>
+        <Text style={textStyles}>{item.text}</Text>
+      </TouchableOpacity>
     </View>
   );
 }

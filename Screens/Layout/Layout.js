@@ -14,13 +14,18 @@ const Layout = () => {
 
   const addTodo = () => {
     if (input !== "") {
-      setItems((prevItems) => [...prevItems, { id: Date.now(), text: input }]);
+      setItems((prevItems) => [
+        ...prevItems,
+        { id: Date.now(), text: input, done: false },
+      ]);
       setInput("");
     }
   };
 
-  const handleDelete = (id) => {
-    setItems((prevItems) => prevItems.filter((item) => item.id !== id));
+  const handleDelete = () => {
+    setItems((prevItems) =>
+      prevItems.filter((item) => item.id !== itemSelected.id)
+    );
     setItemselected({});
     setModalVisible(!modalVisible);
   };
@@ -30,10 +35,15 @@ const Layout = () => {
     setModalVisible(!modalVisible);
   };
 
-  const handleEdit = (id, newText) => {
-    console.log("HERE");
-    const itemToEdit = items.find((item) => item.id === id);
+  const handleEdit = (newText) => {
+    const itemToEdit = items.find((item) => item.id === itemSelected.id);
     itemToEdit.text = newText;
+  };
+
+  const handleDone = () => {
+    const itemToEdit = items.find((item) => item.id === itemSelected.id);
+    itemToEdit.done = !itemToEdit.done;
+    setModalVisible(!modalVisible);
   };
 
   const handleEnterPress = (e) => {
@@ -59,11 +69,7 @@ const Layout = () => {
           <FlatList
             data={items}
             renderItem={({ item }) => (
-              <Item
-                item={item}
-                onDelete={handleShowModal}
-                onEdit={handleEdit}
-              />
+              <Item item={item} openModal={handleShowModal} />
             )}
             keyExtractor={(item) => item.id}
           />
@@ -76,6 +82,8 @@ const Layout = () => {
         setModalVisible={setModalVisible}
         itemSelected={itemSelected}
         handleDelete={handleDelete}
+        handleEdit={handleEdit}
+        handleDone={handleDone}
       />
     </View>
   );

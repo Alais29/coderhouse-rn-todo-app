@@ -1,4 +1,4 @@
-import { Text, View, Modal } from "react-native";
+import { Text, TextInput, View, Modal } from "react-native";
 import React from "react";
 import CustomButton from "../CustomButton/CustomButton";
 import { styles } from "./styles";
@@ -8,6 +8,8 @@ const CustomModal = ({
   setModalVisible,
   itemSelected,
   handleDelete,
+  handleEdit,
+  handleDone,
 }) => {
   return (
     <View style={styles.centeredView}>
@@ -22,19 +24,28 @@ const CustomModal = ({
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <View style={styles.modalmessage}>
-              <Text>¿Estás seguro que deseas eliminar el siguiente item?</Text>
+              <Text>Edita el item, elimínalo o márcalo como listo</Text>
             </View>
             <View style={styles.modalmessage}>
-              <Text style={styles.modalItem}>{itemSelected.text}</Text>
+              <TextInput
+                style={styles.modalItem}
+                onChangeText={handleEdit}
+                value={itemSelected.text}
+              />
             </View>
             <View style={styles.modalButton}>
               <CustomButton
-                text="Confirmar"
+                text="Borrar"
                 type="danger"
-                onPress={handleDelete.bind(this, itemSelected.id)}
+                onPress={handleDelete}
               />
               <CustomButton
-                text="Cancelar"
+                text={itemSelected.done ? "Pendiente" : "Lista"}
+                type="success"
+                onPress={handleDone}
+              />
+              <CustomButton
+                text="Cerrar"
                 onPress={() => setModalVisible(!modalVisible)}
               />
             </View>
