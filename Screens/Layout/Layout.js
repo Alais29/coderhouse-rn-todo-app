@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { View, TextInput, FlatList, Text } from "react-native";
+import { Image, View, TextInput, FlatList, Text } from "react-native";
 import Item from "../../Components/Item/Item";
 import CustomButton from "../../Components/CustomButton/CustomButton";
 import CustomModal from "../../Components/CustomModal/Modal";
+import happy from "../../assets/happy.png";
 
 import { styles } from "./styles";
 
@@ -41,30 +42,23 @@ const Layout = () => {
     setItems([...items]);
   };
 
-  const handleDone = () => {
-    const itemToEdit = items.find((item) => item.id === itemSelected.id);
+  const handleDone = (id) => {
+    const itemToEdit = items.find((item) => item.id === id);
     itemToEdit.done = !itemToEdit.done;
-    setModalVisible(!modalVisible);
-  };
-
-  const handleEnterPress = (e) => {
-    if (e.nativeEvent.key == "Enter") {
-      addTodo();
-    }
+    setItems([...items]);
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.topContainer}>
         <Text style={styles.title}>Hello!</Text>
-        <Text style={styles.subtitle}>Add your tasks here!</Text>
+        <Text style={styles.subtitle}>Add your tasks here</Text>
         <View style={styles.addTask}>
           <TextInput
             style={styles.input}
             placeholder="Write a task..."
             onChangeText={setInput}
             value={input}
-            onKeyPress={handleEnterPress}
           />
           <CustomButton
             text="Add"
@@ -78,18 +72,27 @@ const Layout = () => {
           />
         </View>
       </View>
-      <View style={styles.itemList}>
+      <View style={styles.divider}></View>
+      <View
+        style={[styles.itemList, items.length === 0 && styles.itemListEmpty]}
+      >
         {items.length !== 0 ? (
           <FlatList
             data={items}
             renderItem={({ item }) => (
-              <Item item={item} openModal={handleShowModal} />
+              <Item
+                item={item}
+                openModal={handleShowModal}
+                handleDone={handleDone}
+              />
             )}
             keyExtractor={(item) => item.id}
-            numColumns={3}
           />
         ) : (
-          <Text style={styles.text}>No tasks yet</Text>
+          <View style={styles.emptyList}>
+            <Text style={styles.text}>No tasks to do!</Text>
+            <Image source={happy} style={styles.image} />
+          </View>
         )}
       </View>
       <CustomModal
@@ -98,7 +101,6 @@ const Layout = () => {
         itemSelected={itemSelected}
         handleDelete={handleDelete}
         handleEdit={handleEdit}
-        handleDone={handleDone}
       />
     </View>
   );

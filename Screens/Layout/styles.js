@@ -1,9 +1,11 @@
-import { StyleSheet, StatusBar } from "react-native";
+import { StyleSheet, StatusBar, Dimensions } from "react-native";
 import { colors } from "../../Styles/colors";
+
+const screenHeight = Dimensions.get("window").height;
 
 export const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.background,
+    backgroundColor: colors.light2,
     justifyContent: "space-around",
     alignItems: "center",
     height: "100%",
@@ -18,11 +20,12 @@ export const styles = StyleSheet.create({
     textAlign: "center",
   },
   topContainer: {
-    height: "30%",
+    height: 220,
     alignItems: "center",
     justifyContent: "center",
     width: "90%",
-    marginTop: StatusBar.currentHeight || 20,
+    paddingTop: StatusBar.currentHeight || 20,
+    borderBottomLeftRadius: 50,
   },
   addTask: {
     flexDirection: "row",
@@ -43,15 +46,36 @@ export const styles = StyleSheet.create({
     flexGrow: 1,
     maxWidth: "80%",
   },
+  divider: {
+    height: 5,
+    width: "100%",
+    backgroundColor: colors.primary,
+  },
   itemList: {
     width: "100%",
-    height: "70%",
+    height: screenHeight - 195,
     padding: 20,
+    paddingTop: 30,
     backgroundColor: colors.secondary,
-    flexDirection: "row",
-    flexWrap: "wrap",
+  },
+  itemListEmpty: {
+    paddingBottom: 0,
+  },
+  emptyList: {
+    alignItems: "center",
+    justifyContent: "flex-end",
+    height: "100%",
   },
   text: {
     textAlign: "center",
+    fontSize: 30,
+    position: "absolute",
+    top: 0,
+  },
+  image: {
+    width: screenHeight - 282,
+    maxWidth: 300,
+    height: screenHeight - 282,
+    maxHeight: 300,
   },
 });

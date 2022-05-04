@@ -1,7 +1,8 @@
-import { Text, TextInput, View, Modal } from "react-native";
+import { Text, TextInput, View, Modal, TouchableOpacity } from "react-native";
 import React from "react";
 import CustomButton from "../CustomButton/CustomButton";
 import { styles } from "./styles";
+import { colors } from "../../Styles/colors";
 
 const CustomModal = ({
   modalVisible,
@@ -9,8 +10,10 @@ const CustomModal = ({
   itemSelected,
   handleDelete,
   handleEdit,
-  handleDone,
 }) => {
+  const lines = Math.ceil(itemSelected.text?.length / 19);
+  const numberOfLines = lines > 4 ? 4 : lines;
+
   return (
     <View style={styles.centeredView}>
       <Modal
@@ -23,31 +26,44 @@ const CustomModal = ({
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
+            <View style={styles.modalClose}>
+              <CustomButton
+                text="X"
+                onPress={() => setModalVisible(!modalVisible)}
+                type="warning"
+                style={{
+                  paddingHorizontal: 9,
+                  paddingVertical: 2,
+                  borderRadius: 50,
+                }}
+                textStyle={{
+                  color: colors.dark,
+                }}
+              />
+            </View>
             <View style={styles.modalmessage}>
-              <Text>Edita el item, elimínalo o márcalo como listo</Text>
+              <Text style={styles.modalmessageText}>Edit your task here:</Text>
             </View>
             <View style={styles.modalmessage}>
               <TextInput
                 style={styles.modalItem}
                 onChangeText={handleEdit}
                 value={itemSelected.text}
+                multiline={itemSelected.text?.length > 19 ? true : false}
+                numberOfLines={numberOfLines}
               />
             </View>
-            <View style={styles.modalButton}>
-              <CustomButton
-                text="Borrar"
-                type="danger"
-                onPress={handleDelete}
-              />
-              <CustomButton
-                text={itemSelected.done ? "Pendiente" : "Lista"}
-                type="success"
-                onPress={handleDone}
-              />
-              <CustomButton
-                text="Cerrar"
-                onPress={() => setModalVisible(!modalVisible)}
-              />
+            <View style={[styles.modalmessage, styles.noMarginBottom]}>
+              <Text style={styles.modalmessageText}>
+                Or tap here to delete it:
+              </Text>
+              <View style={styles.modalButton}>
+                <CustomButton
+                  text="Delete"
+                  type="danger"
+                  onPress={handleDelete}
+                />
+              </View>
             </View>
           </View>
         </View>
