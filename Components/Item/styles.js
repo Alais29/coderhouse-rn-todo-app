@@ -3,19 +3,22 @@ import { colors } from "../../Styles/colors";
 
 export const styles = StyleSheet.create({
   itemContainer: {
-    backgroundColor: colors.darkBrown,
+    backgroundColor: colors.tertiary,
     padding: 10,
     borderRadius: 10,
     marginBottom: 10,
-    flexGrow: 1,
+    marginRight: 15,
+    width: 100,
+    maxWidth: "30%",
+    maxHeight: 100,
   },
   text: {
-    color: colors.white,
+    color: colors.dark,
     fontSize: 18,
   },
   done: {
     textDecorationLine: "line-through",
     textDecorationStyle: "solid",
-    color: colors.darkGray,
+    color: colors.dark,
   },
 });

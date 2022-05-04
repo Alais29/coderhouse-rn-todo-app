@@ -5,14 +5,14 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22,
     backgroundColor: "rgba(0,0,0,0.5)",
   },
   modalView: {
     margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
-    padding: 35,
+    paddingTop: 35,
+    paddingBottom: 35,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -37,5 +37,6 @@ export const styles = StyleSheet.create({
   },
   modalItem: {
     fontSize: 30,
+    textAlign: "center",
   },
 });

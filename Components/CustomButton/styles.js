@@ -3,15 +3,15 @@ import { colors } from "../../Styles/colors";
 
 export const styles = StyleSheet.create({
   button: {
-    backgroundColor: colors.darkBrown,
+    backgroundColor: colors.primary,
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 10,
-    borderWidth: 2,
+    borderWidth: 1,
   },
   text: {
     fontSize: 18,
-    color: colors.white,
+    color: colors.light,
   },
   danger: {
     backgroundColor: colors.danger,

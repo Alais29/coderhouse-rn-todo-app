@@ -38,6 +38,7 @@ const Layout = () => {
   const handleEdit = (newText) => {
     const itemToEdit = items.find((item) => item.id === itemSelected.id);
     itemToEdit.text = newText;
+    setItems([...items]);
   };
 
   const handleDone = () => {
@@ -55,14 +56,27 @@ const Layout = () => {
   return (
     <View style={styles.container}>
       <View style={styles.topContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Add todo"
-          onChangeText={setInput}
-          value={input}
-          onKeyPress={handleEnterPress}
-        />
-        <CustomButton text="Add todo" onPress={addTodo} />
+        <Text style={styles.title}>Hello!</Text>
+        <Text style={styles.subtitle}>Add your tasks here!</Text>
+        <View style={styles.addTask}>
+          <TextInput
+            style={styles.input}
+            placeholder="Write a task..."
+            onChangeText={setInput}
+            value={input}
+            onKeyPress={handleEnterPress}
+          />
+          <CustomButton
+            text="Add"
+            onPress={addTodo}
+            style={{
+              borderTopLeftRadius: 0,
+              borderBottomLeftRadius: 0,
+              borderLeftWidth: 0,
+              height: 40,
+            }}
+          />
+        </View>
       </View>
       <View style={styles.itemList}>
         {items.length !== 0 ? (
@@ -72,9 +86,10 @@ const Layout = () => {
               <Item item={item} openModal={handleShowModal} />
             )}
             keyExtractor={(item) => item.id}
+            numColumns={3}
           />
         ) : (
-          <Text style={styles.text}>No hay tareas</Text>
+          <Text style={styles.text}>No tasks yet</Text>
         )}
       </View>
       <CustomModal
