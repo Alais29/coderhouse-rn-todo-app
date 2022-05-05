@@ -1,25 +1,23 @@
 import React, { useState } from "react";
-import { Image, View, TextInput, FlatList, Text } from "react-native";
-import Item from "../../Components/Item/Item";
-import CustomButton from "../../Components/CustomButton/CustomButton";
+import { View } from "react-native";
+import Header from "../../Components/Header/Header";
 import CustomModal from "../../Components/CustomModal/Modal";
-import happy from "../../assets/happy.png";
 
 import { styles } from "./styles";
+import List from "../../Components/List/List";
 
 const Layout = () => {
-  const [input, setInput] = useState("");
   const [items, setItems] = useState([]);
   const [itemSelected, setItemselected] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
 
-  const addTodo = () => {
-    if (input !== "") {
+  const addTodo = (value, callback) => {
+    if (value !== "") {
       setItems((prevItems) => [
         ...prevItems,
-        { id: Date.now(), text: input, done: false },
+        { id: Date.now(), text: value, done: false },
       ]);
-      setInput("");
+      callback();
     }
   };
 
@@ -50,51 +48,13 @@ const Layout = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.topContainer}>
-        <Text style={styles.title}>Hello!</Text>
-        <Text style={styles.subtitle}>Add your tasks here</Text>
-        <View style={styles.addTask}>
-          <TextInput
-            style={styles.input}
-            placeholder="Write a task..."
-            onChangeText={setInput}
-            value={input}
-          />
-          <CustomButton
-            text="Add"
-            onPress={addTodo}
-            style={{
-              borderTopLeftRadius: 0,
-              borderBottomLeftRadius: 0,
-              borderLeftWidth: 0,
-              height: 40,
-            }}
-          />
-        </View>
-      </View>
+      <Header addTodo={addTodo} />
       <View style={styles.divider}></View>
-      <View
-        style={[styles.itemList, items.length === 0 && styles.itemListEmpty]}
-      >
-        {items.length !== 0 ? (
-          <FlatList
-            data={items}
-            renderItem={({ item }) => (
-              <Item
-                item={item}
-                openModal={handleShowModal}
-                handleDone={handleDone}
-              />
-            )}
-            keyExtractor={(item) => item.id}
-          />
-        ) : (
-          <View style={styles.emptyList}>
-            <Text style={styles.text}>No tasks to do!</Text>
-            <Image source={happy} style={styles.image} />
-          </View>
-        )}
-      </View>
+      <List
+        items={items}
+        handleShowModal={handleShowModal}
+        handleDone={handleDone}
+      />
       <CustomModal
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
