@@ -6,7 +6,13 @@
   </a>
 </p>
 
-> A todo app built with React Native with learning purposes
+> A simple todo app built with React Native with learning purposes
+
+## Features
+
+- Add, edit and delete a task
+- Mark or unmark any task as done or not
+- Each task shows the date and time of its creation
 
 ### 🏠 [Homepage](https://github.com/Alais29/coderhouse-rn-todo-app#readme)
 
