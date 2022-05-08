@@ -1,6 +1,10 @@
 {
-  "name": "core-components",
+  "name": "react-native-todo-app",
   "version": "1.0.0",
+  "description": "A todo app built with React Native with learning purposes",
+  "author": "Alfonsina Lizardo",
+  "license": "ISC",
+  "homepage": "https://github.com/Alais29/coderhouse-rn-todo-app#readme",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start --tunnel",
